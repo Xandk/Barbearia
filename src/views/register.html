@@ -1,0 +1,30 @@
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastro</h1>
+    <form action="register" method="post">
+        <!-- colocamos o metodo como post, para as informações serem adicionadas -->
+        <label>nome</label>
+        <input type="text" name="nome"
+        required>
+
+        <br>
+
+        <label>email</label>
+        <input type="text" name="email"
+        required>
+
+        <br>
+
+        <label>senha</label>
+        <input type="text" name="senha"
+        required>
+
+        <button type="submit">CADASTRAR</button> 
+         <!-- o botão tem o tipo submit pq ele foi criado para enviar os dados para o servidor -->
+    </form>
+</body>
+</html>
