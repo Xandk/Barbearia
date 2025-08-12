@@ -8,6 +8,9 @@ import bcrypt from 'bcryptjs';
 //import de models
 import User from './models/User.js';
 
+//import de routes
+import userRoutes from './routes/userRoutes.js';
+
 
 dotenv.config(); // carrega as variáveis do .env
 
@@ -31,51 +34,9 @@ app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
 });
 
-//////////////////////////////////////
 
 
-
-//abaixo tem a rota de cadastro (POST)
-
-app.post('/register', async(req, res)=>{
-  try{ 
-    const{nome,email,senha} = req.body;
-
-    //validação basica para que o usuario preencha todos os campos
-    if(!nome || !email || !senha){
-      return res.status(400).send("preencha todos os campos")
-    }
-
-    //verificação se um email ja esta sendo usado
-    if (await User.findOne({ email })) {
-      return res.status(400).send('Email já cadastrado');
-    }//a função .findOne é usada para ver se ja existe um campo com o mesmo valor.
-
-    //a constante a baixo é responsavel por criptografar nossas senhas.
-    const criptografadorDeSenha = await bcrypt.hash(senha,10);
-
-    //a baixo, é criado o usuario do banco
-    const newUser = new User({nome, email, senha: criptografadorDeSenha});
-    await newUser.save();
-
-    res.status(201).send('usuario cadastrado!');  
-}
-catch (err) {
-  console.error(err);
-  res.status(500).send("erro no servidor");
-}
-
-});
+app.use('/', userRoutes);
 
 
-////////////////////////////////
-
-//vamos conectar nossa rota cadastro ao html  register, na pasta views.
-import path from "path";
-import { fileURLToPath } from 'url';
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'register.html'));
-});
 
